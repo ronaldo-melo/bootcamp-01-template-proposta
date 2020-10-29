@@ -29,11 +29,20 @@ public class Proposta {
     @Positive
     private BigDecimal salario;
 
+    @Deprecated
+    public Proposta() {
+
+    }
+
     public Proposta(@NotBlank String cpfOuCnp, @Email @NotBlank String email, @NotBlank String endereco, @Positive BigDecimal salario) {
         this.cpfOuCnp = cpfOuCnp;
         this.email = email;
         this.endereco = endereco;
         this.salario = salario;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override
