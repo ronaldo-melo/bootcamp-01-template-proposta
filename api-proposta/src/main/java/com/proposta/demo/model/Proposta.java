@@ -1,5 +1,7 @@
 package com.proposta.demo.model;
 
+import com.proposta.demo.validator.CpfCnpj;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ public class Proposta {
 
     @NotBlank
     @NotNull
+    @CpfCnpj
     private String cpfOuCnp;
 
     @Email
@@ -34,7 +37,7 @@ public class Proposta {
 
     }
 
-    public Proposta(@NotBlank String cpfOuCnp, @Email @NotBlank String email, @NotBlank String endereco,
+    public Proposta(@NotBlank @CpfCnpj String cpfOuCnp, @Email @NotBlank String email, @NotBlank String endereco,
                     @Positive BigDecimal salario) {
         this.cpfOuCnp = cpfOuCnp;
         this.email = email;

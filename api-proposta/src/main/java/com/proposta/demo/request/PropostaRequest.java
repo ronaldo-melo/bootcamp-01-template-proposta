@@ -1,8 +1,8 @@
 package com.proposta.demo.request;
 
 import com.proposta.demo.model.Proposta;
-import com.proposta.demo.utils.ValidadorParaCPFouCNPJ;
-import org.hibernate.validator.constraints.br.CPF;
+
+import com.proposta.demo.validator.CpfCnpj;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 public class PropostaRequest {
 
     @NotBlank
+    @CpfCnpj
     private String cpfOuCnpj;
 
     @Email
@@ -24,9 +25,9 @@ public class PropostaRequest {
     @Positive
     private BigDecimal salario;
 
-    public PropostaRequest(@NotBlank String cpfOuCnpj, @Email @NotBlank String email,
+    public PropostaRequest(@NotBlank @CpfCnpj String cpfOuCnpj, @Email @NotBlank String email,
                            @NotBlank String endereco, @Positive BigDecimal salario) {
-        this.cpfOuCnpj = ValidadorParaCPFouCNPJ.isValid(cpfOuCnpj);
+        this.cpfOuCnpj = cpfOuCnpj;
         this.email = email;
         this.endereco = endereco;
         this.salario = salario;
