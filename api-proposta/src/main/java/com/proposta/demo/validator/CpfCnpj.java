@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CpfCnpj {
 
-    String message() default "{br.com.zup.nossocartao.novaproposta.CpfCnpj}";
+    String message() default "O CPF/CNPJ inserido está com formato inválido";
 
     Class<?>[] groups() default { };
 
