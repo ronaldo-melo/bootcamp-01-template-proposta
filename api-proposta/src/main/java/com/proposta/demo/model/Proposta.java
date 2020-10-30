@@ -1,10 +1,7 @@
 package com.proposta.demo.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -17,13 +14,16 @@ public class Proposta {
     private Long id;
 
     @NotBlank
+    @NotNull
     private String cpfOuCnp;
 
     @Email
     @NotBlank
+    @NotNull
     private String email;
 
     @NotBlank
+    @NotNull
     private String endereco;
 
     @Positive
@@ -34,7 +34,8 @@ public class Proposta {
 
     }
 
-    public Proposta(@NotBlank String cpfOuCnp, @Email @NotBlank String email, @NotBlank String endereco, @Positive BigDecimal salario) {
+    public Proposta(@NotBlank String cpfOuCnp, @Email @NotBlank String email, @NotBlank String endereco,
+                    @Positive BigDecimal salario) {
         this.cpfOuCnp = cpfOuCnp;
         this.email = email;
         this.endereco = endereco;
