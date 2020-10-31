@@ -15,10 +15,11 @@ public class Proposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     @NotBlank
     @NotNull
     @CpfCnpj
-    private String cpfOuCnp;
+    private String cpfOuCnpj;
 
     @Email
     @NotBlank
@@ -37,9 +38,9 @@ public class Proposta {
 
     }
 
-    public Proposta(@NotBlank @CpfCnpj String cpfOuCnp, @Email @NotBlank String email, @NotBlank String endereco,
+    public Proposta(@NotBlank @CpfCnpj String cpfOuCnpj, @Email @NotBlank String email, @NotBlank String endereco,
                     @Positive BigDecimal salario) {
-        this.cpfOuCnp = cpfOuCnp;
+        this.cpfOuCnpj = cpfOuCnpj;
         this.email = email;
         this.endereco = endereco;
         this.salario = salario;

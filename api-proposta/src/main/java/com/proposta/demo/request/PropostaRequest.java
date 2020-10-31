@@ -3,6 +3,7 @@ package com.proposta.demo.request;
 import com.proposta.demo.model.Proposta;
 
 import com.proposta.demo.validator.CpfCnpj;
+import com.proposta.demo.validator.CpfCnpjUnico;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ public class PropostaRequest {
 
     @NotBlank
     @CpfCnpj
+    @CpfCnpjUnico
     private String cpfOuCnpj;
 
     @Email
@@ -25,7 +27,7 @@ public class PropostaRequest {
     @Positive
     private BigDecimal salario;
 
-    public PropostaRequest(@NotBlank @CpfCnpj String cpfOuCnpj, @Email @NotBlank String email,
+    public PropostaRequest(@NotBlank @CpfCnpj @CpfCnpjUnico String cpfOuCnpj, @Email @NotBlank String email,
                            @NotBlank String endereco, @Positive BigDecimal salario) {
         this.cpfOuCnpj = cpfOuCnpj;
         this.email = email;
