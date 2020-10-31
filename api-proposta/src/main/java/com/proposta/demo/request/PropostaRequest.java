@@ -34,7 +34,7 @@ public class PropostaRequest {
         this.endereco = endereco;
         this.salario = salario;
     }
-
+            //1
     public Proposta toModel(){
         return new Proposta(this.cpfOuCnpj, this.email, this.endereco, this.salario);
     }

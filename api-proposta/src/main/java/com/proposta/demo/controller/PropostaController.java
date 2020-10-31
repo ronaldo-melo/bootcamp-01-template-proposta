@@ -26,7 +26,7 @@ public class PropostaController {
     private EntityManager manager;
 
     @PostMapping
-    @Transactional
+    @Transactional                                                   //1
     public ResponseEntity<?> salvarProposta(@RequestBody @Valid PropostaRequest request, UriComponentsBuilder builder){
         Long id = manager.merge(request.toModel()).getId();
         URI uri = builder.path("/{id}").build(id);

@@ -27,7 +27,7 @@ public class CpfCnpjUnicoValidator implements ConstraintValidator<CpfCnpjUnico, 
         query.setParameter("value", value);
 
         if(!query.getResultList().isEmpty())
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Já existe um cadastro com o CPF/CNPJ informado");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Já existe um cadastro com o CPF/CNPJ informado.");
 
         return true;
     }
