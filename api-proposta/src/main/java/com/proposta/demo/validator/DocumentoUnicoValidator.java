@@ -1,5 +1,6 @@
 package com.proposta.demo.validator;
 
+import com.proposta.demo.model.Proposta;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -8,22 +9,23 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
-public class CpfCnpjUnicoValidator implements ConstraintValidator<CpfCnpjUnico, String> {
+public class CpfCnpjUnicoValidator implements ConstraintValidator<DocumentoUnico, String> {
 
     @PersistenceContext
     private EntityManager manager;
 
     @Override
-    public void initialize(CpfCnpjUnico constraintAnnotation) {
+    public void initialize(DocumentoUnico constraintAnnotation) {
 
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
+    public boolean isValid(@NotNull String value, ConstraintValidatorContext context) {
 
-        Query query = manager.createNativeQuery("select p.cpf_ou_cnpj from Proposta p where p.cpf_ou_cnpj = :value");
-
+        Query query = manager.createNativeQuery("select p.documento from Proposta p where p.documento = :value");
         query.setParameter("value", value);
 
         if(!query.getResultList().isEmpty())
