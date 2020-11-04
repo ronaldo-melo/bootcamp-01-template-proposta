@@ -1,4 +1,4 @@
-package com.proposta.demo;
+package com.proposta.demo.service;
 
 import com.proposta.demo.infrastructure.Integracoes;
 import com.proposta.demo.model.ResultadoAnalise;

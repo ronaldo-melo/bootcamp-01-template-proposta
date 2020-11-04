@@ -1,6 +1,6 @@
 package com.proposta.demo.model.enums;
 
-public enum EstadoProposta {
+public enum StatusAvaliacaoProposta {
 
     NAO_ELEGIVEL, ELEGIVEL;
 
