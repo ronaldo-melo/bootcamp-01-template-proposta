@@ -1,6 +1,7 @@
 package com.proposta.demo.model;
 
 import com.proposta.demo.model.enums.ResultadoSolicitacao;
+import com.proposta.demo.model.enums.StatusAvaliacaoProposta;
 import com.proposta.demo.validator.DocumentoFormatoValido;
 
 import javax.validation.constraints.NotBlank;
@@ -40,11 +41,15 @@ public class ResultadoAnalise {
         return nome;
     }
 
-    public ResultadoSolicitacao getResultadoSolicitacao() {
+    private ResultadoSolicitacao getResultadoSolicitacao() {
         return resultadoSolicitacao;
     }
 
     public String getIdProposta() {
         return idProposta;
+    }
+
+    public StatusAvaliacaoProposta getStatusAvaliacao(){
+        return this.getResultadoSolicitacao().getStatusAvaliacao();
     }
 }
