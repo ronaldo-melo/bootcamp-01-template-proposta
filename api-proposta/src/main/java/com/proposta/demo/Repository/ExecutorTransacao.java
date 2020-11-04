@@ -1,4 +1,4 @@
-package com.proposta.demo.infrastructure;
+package com.proposta.demo.Repository;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
