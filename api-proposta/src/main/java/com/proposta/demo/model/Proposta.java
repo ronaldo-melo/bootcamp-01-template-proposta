@@ -1,6 +1,8 @@
 package com.proposta.demo.model;
 
-import com.proposta.demo.validator.CpfCnpj;
+import com.proposta.demo.model.enums.StatusAvaliacaoProposta;
+import com.proposta.demo.validator.DocumentoFormatoValido;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -18,8 +20,12 @@ public class Proposta {
     @Column(unique = true)
     @NotBlank
     @NotNull
-    @CpfCnpj
-    private String cpfOuCnpj;
+    @DocumentoFormatoValido
+    private String documento;
+
+    @NotBlank
+    @NotNull
+    private String nome;
 
     @Email
     @NotBlank
@@ -33,21 +39,41 @@ public class Proposta {
     @Positive
     private BigDecimal salario;
 
+    @NotNull
+    private StatusAvaliacaoProposta estadoProposta;
+
     @Deprecated
     public Proposta() {
 
     }
 
-    public Proposta(@NotBlank @CpfCnpj String cpfOuCnpj, @Email @NotBlank String email, @NotBlank String endereco,
+    public Proposta(@NotBlank @DocumentoFormatoValido String documento, @NotBlank @NotNull String nome,
+                    @Email @NotBlank String email, @NotBlank String endereco,
                     @Positive BigDecimal salario) {
-        this.cpfOuCnpj = cpfOuCnpj;
+
+        this.documento = documento;
         this.email = email;
+        this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+        this.estadoProposta = StatusAvaliacaoProposta.NAO_ELEGIVEL;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacaoProposta){
+        Assert.isTrue(this.estadoProposta.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL), "uma vez que a proposta é elegível não pode mais trocar");
+        this.estadoProposta = estadoProposta;
     }
 
     @Override
