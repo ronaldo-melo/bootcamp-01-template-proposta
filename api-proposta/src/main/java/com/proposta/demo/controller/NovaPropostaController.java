@@ -43,24 +43,17 @@ public class NovaPropostaController {
     @PostMapping
     @Transactional                                                   //3
     public ResponseEntity<?> salvarProposta(@RequestBody @Valid PropostaRequest request, UriComponentsBuilder builder){
-
+        
         //4
         Proposta proposta = request.toModel();
-        //salva a nova proposta e devolve um objeto gerenciado pelo EM
+
         executorTransacao.salvaEcomita(proposta);
 
-        //cria uma solicitação análise a partir dos dados da proposta
-        //5 -> refatorar? pois Proposta conhece os dados da solicitação
-        SolicitacaoAnalise solicitacaoAnalise = new SolicitacaoAnalise(proposta);
+        //5
+        ResultadoAnalise avaliacao = avaliaProposta.retornarAnalise(proposta.obterDadosParaAnalise());
 
-        //resultado da análise feita pela API externa
-        //6 
-        ResultadoAnalise avaliacao = avaliaProposta.retornarAnalise(solicitacaoAnalise);
+        proposta.atualizaStatus(avaliacao.getStatusAvaliacao());
 
-        //altera o status da nova proposta caso seja não elegível
-        proposta.atualizaStatus(avaliacao.getResultadoSolicitacao().getStatusAvaliacao());
-
-        //atualiza a prospota
         executorTransacao.salvaEcomita(proposta);
 
         URI uri = builder.path("/{id}").build(proposta.getId());
