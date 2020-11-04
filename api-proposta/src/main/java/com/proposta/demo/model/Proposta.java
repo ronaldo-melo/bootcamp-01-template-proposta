@@ -88,4 +88,9 @@ public class Proposta {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Transient
+    public SolicitacaoAnalise obterDadosParaAnalise(){
+        return new SolicitacaoAnalise(this);
+    }
 }
