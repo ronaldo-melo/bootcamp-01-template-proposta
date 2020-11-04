@@ -23,13 +23,12 @@ import java.net.URI;
 @RestController
 public class NovaPropostaController {
 
-    //1
     private EntityManager manager;
 
-    //2
+    //1
     private ExecutorTransacao executorTransacao;
 
-    //3
+    //2
     private AvaliaProposta avaliaProposta;
 
     public NovaPropostaController(EntityManager manager, ExecutorTransacao executorTransacao,
@@ -42,18 +41,20 @@ public class NovaPropostaController {
     }
 
     @PostMapping
-    @Transactional                                                   //4
+    @Transactional                                                   //3
     public ResponseEntity<?> salvarProposta(@RequestBody @Valid PropostaRequest request, UriComponentsBuilder builder){
 
-
+        //4
         Proposta proposta = request.toModel();
         //salva a nova proposta e devolve um objeto gerenciado pelo EM
         executorTransacao.salvaEcomita(proposta);
 
         //cria uma solicitação análise a partir dos dados da proposta
+        //5 -> refatorar? pois Proposta conhece os dados da solicitação
         SolicitacaoAnalise solicitacaoAnalise = new SolicitacaoAnalise(proposta);
 
         //resultado da análise feita pela API externa
+        //6 
         ResultadoAnalise avaliacao = avaliaProposta.retornarAnalise(solicitacaoAnalise);
 
         //altera o status da nova proposta caso seja não elegível
@@ -66,5 +67,7 @@ public class NovaPropostaController {
 
         return ResponseEntity.created(uri).build();
     }
+
+
 
 }
