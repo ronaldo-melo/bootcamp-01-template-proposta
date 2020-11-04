@@ -43,16 +43,13 @@ public class NovaPropostaController {
     @PostMapping
     @Transactional                                                   //3
     public ResponseEntity<?> salvarProposta(@RequestBody @Valid PropostaRequest request, UriComponentsBuilder builder){
-        
+
         //4
         Proposta proposta = request.toModel();
 
         executorTransacao.salvaEcomita(proposta);
 
-        //5
-        ResultadoAnalise avaliacao = avaliaProposta.retornarAnalise(proposta.obterDadosParaAnalise());
-
-        proposta.atualizaStatus(avaliacao.getStatusAvaliacao());
+        proposta.atualizaStatus(avaliaProposta.getStatusAvaliacao(proposta.obterDadosParaAnalise()));
 
         executorTransacao.salvaEcomita(proposta);
 
