@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-/*Diz ao Spring que a aplicação irá usar a configuração de clientes web services dinâmicas*/
+/*permite ao Spring fazer o scanning de interfaces que declaram ser clientes Feign*/
 @EnableFeignClients
 @SpringBootApplication
 public class ApiDePropostaApplication {
