@@ -23,7 +23,7 @@ public interface Integracoes {
      declarar outros endereços de API's diferentes para serem consumidas por uma mesma aplicação.
      OBS: Na anotação @FeignClient em versões anteriores era precisa informar apenas o atributo
      'url', atualmente é obrigatório forncer o nome da api no atributo 'name'.
-     * */
+     */
 
     @PostMapping("/api/solicitacao")
     ResponseEntity<ResultadoAnalise> avalia(SolicitacaoAnalise solicitacaoAnalise);
