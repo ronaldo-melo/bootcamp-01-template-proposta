@@ -6,7 +6,7 @@ import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class CpfCnpjValidator implements ConstraintValidator<CpfCnpj, CharSequence> {
+public class CpfCnpjValidator implements ConstraintValidator<DocumentoFormatoValido, CharSequence> {
 
 
     @Override

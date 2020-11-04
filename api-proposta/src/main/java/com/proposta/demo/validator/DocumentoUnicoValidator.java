@@ -12,7 +12,7 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public class CpfCnpjUnicoValidator implements ConstraintValidator<DocumentoUnico, String> {
+public class DocumentoUnicoValidator implements ConstraintValidator<DocumentoUnico, String> {
 
     @PersistenceContext
     private EntityManager manager;

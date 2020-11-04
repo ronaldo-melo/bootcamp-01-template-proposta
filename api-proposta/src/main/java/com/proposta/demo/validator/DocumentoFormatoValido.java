@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = CpfCnpjValidator.class)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CpfCnpj {
+public @interface DocumentoFormatoValido {
 
     String message() default "O CPF/CNPJ inserido está com formato inválido";
 
