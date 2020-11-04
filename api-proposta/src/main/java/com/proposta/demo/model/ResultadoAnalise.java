@@ -41,7 +41,7 @@ public class ResultadoAnalise {
         return nome;
     }
 
-    private ResultadoSolicitacao getResultadoSolicitacao() {
+    public ResultadoSolicitacao getResultadoSolicitacao() {
         return resultadoSolicitacao;
     }
 
