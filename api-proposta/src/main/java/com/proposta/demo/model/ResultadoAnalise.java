@@ -23,6 +23,11 @@ public class ResultadoAnalise {
     @NotBlank
     private String idProposta;
 
+    @Deprecated
+    public ResultadoAnalise(){
+
+    }
+
     public ResultadoAnalise(@NotBlank String documento, @NotEmpty String nome,
                             @NotNull ResultadoSolicitacao resultadoAnalise,
                             @NotBlank String idProposta) {
