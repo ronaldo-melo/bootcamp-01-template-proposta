@@ -1,11 +1,9 @@
 package com.proposta.demo.controller;
 
-import com.proposta.demo.model.cartao.Cartao;
 import com.proposta.demo.response.PropostaResponse;
 import com.proposta.demo.service.AvaliaProposta;
 import com.proposta.demo.Repository.ExecutorTransacao;
 import com.proposta.demo.model.Proposta;
-import com.proposta.demo.model.cartao.Cartao;
 import com.proposta.demo.request.PropostaRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -19,7 +17,7 @@ import java.net.URI;
 
 @RequestMapping("/propostas")
 @RestController
-public class NovaPropostaController {
+public class PropostaController {
 
     private EntityManager manager;
 
@@ -29,8 +27,8 @@ public class NovaPropostaController {
     //2
     private AvaliaProposta avaliaProposta;
 
-    public NovaPropostaController(EntityManager manager, ExecutorTransacao executorTransacao,
-                                  AvaliaProposta avaliaProposta) {
+    public PropostaController(EntityManager manager, ExecutorTransacao executorTransacao,
+                              AvaliaProposta avaliaProposta) {
 
         super();
         this.manager = manager;
