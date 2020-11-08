@@ -1,4 +1,4 @@
-package com.proposta.demo.model.cartao;
+package com.proposta.demo.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -6,7 +6,6 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.awt.print.Book;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
@@ -35,9 +34,8 @@ public class Bloqueio {
 
     }
 
-
     public Bloqueio(@NotNull OffsetDateTime bloqueadoEm, @NotBlank String sistemaResponsavel,
-                    @NotNull Cartao cartao, @NotNull Boolean ativo) {
+                    @NotNull Boolean ativo, @NotNull Cartao cartao) {
 
         this.bloqueadoEm = bloqueadoEm;
         this.sistemaResponsavel = sistemaResponsavel;
