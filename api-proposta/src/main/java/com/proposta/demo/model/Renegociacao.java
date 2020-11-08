@@ -1,4 +1,4 @@
-package com.proposta.demo.model.cartao;
+package com.proposta.demo.model;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
