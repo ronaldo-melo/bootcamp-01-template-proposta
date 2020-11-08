@@ -1,20 +1,46 @@
 package com.proposta.demo.service;
 
-import com.proposta.demo.infrastructure.CartaoIntegracao;
-import com.proposta.demo.model.cartao.Cartao;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.proposta.demo.request.CartaoRequest;
+import com.proposta.demo.response.CartaoResponse;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 @Validated
-public class RecuperarCartao {
+public class RecuperaCartao {
 
-    @Autowired
-    private CartaoIntegracao cartaoIntegracao;
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    public Cartao recuperarPorIdProposta(Long id){
-        return cartaoIntegracao.getCartao(id).getBody();
+    //consulta o cartao pelo id da
+    public ResponseEntity<CartaoResponse> getCartao (Long idProposta) {
+
+        //return new CartaoResponse(cartaoIntegracao.getCartao().getBody().toModel());
+        UriComponents uri = UriComponentsBuilder.newInstance()
+                    .scheme("http")
+                    .host("localhost:8888")
+                    .path("/api/cartoes")
+                    .queryParam("idProposta", idProposta)
+                .build();
+
+        ResponseEntity<CartaoRequest> entity = restTemplate.getForEntity(uri.toUriString(), CartaoRequest.class);
+
+        CartaoRequest request = entity.getBody();
+
+        return new ResponseEntity<>(request.toModel().toResponse(), entity.getStatusCode());
+    }
+
+    public CartaoResponse getCartaoPorId(String id){
+
+
+
+        return null;
+
     }
 
 }
