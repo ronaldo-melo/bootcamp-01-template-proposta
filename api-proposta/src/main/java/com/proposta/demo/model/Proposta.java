@@ -71,9 +71,17 @@ public class Proposta {
         return documento;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public StatusAvaliacaoProposta getStatusAvaliacaoProposta() {
+        return estadoProposta;
+    }
+
     public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacaoProposta){
         Assert.isTrue(this.estadoProposta.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL), "uma vez que a proposta é elegível não pode mais trocar");
-        this.estadoProposta = estadoProposta;
+        this.estadoProposta = statusAvaliacaoProposta;
     }
 
     @Override
