@@ -1,27 +1,30 @@
 package com.proposta.demo.service;
 
-import com.proposta.demo.infrastructure.Integracoes;
 import com.proposta.demo.model.ResultadoAnalise;
 import com.proposta.demo.model.SolicitacaoAnalise;
 import com.proposta.demo.model.enums.StatusAvaliacaoProposta;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @Validated
 public class AvaliaProposta {
 
-    @Autowired
-    private Integracoes integracoes;
-
     public ResultadoAnalise retornarAnalise(SolicitacaoAnalise solicitacaoAnalise){
 
-        ResultadoAnalise analise = integracoes.avalia(solicitacaoAnalise).getBody();
+        //ResultadoAnalise analise = integracoes.avaliaSocilicaoAnalise(solicitacaoAnalise).getBody();
 
-        return analise;
+        String url = "http://localhost:9999/api/solicitacao";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpEntity<SolicitacaoAnalise> request = new HttpEntity<>(solicitacaoAnalise);
+
+        ResultadoAnalise resultadoAnalise = restTemplate.postForEntity(url, request, ResultadoAnalise.class).getBody();
+
+        return resultadoAnalise;
     }
 
     public StatusAvaliacaoProposta getStatusAvaliacao(SolicitacaoAnalise solicitacaoAnalise){
