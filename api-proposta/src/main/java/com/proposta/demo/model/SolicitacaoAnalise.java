@@ -36,15 +36,4 @@ public class SolicitacaoAnalise {
         return idProposta;
     }
 
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setIdProposta(String idProposta) {
-        this.idProposta = idProposta;
-    }
 }
