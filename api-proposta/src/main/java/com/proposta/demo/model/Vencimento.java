@@ -1,4 +1,4 @@
-package com.proposta.demo.model.cartao;
+package com.proposta.demo.model;
 
 import org.bouncycastle.pqc.crypto.newhope.NHOtherInfoGenerator;
 
