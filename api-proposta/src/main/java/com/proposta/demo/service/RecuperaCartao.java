@@ -35,11 +35,14 @@ public class RecuperaCartao {
         return new ResponseEntity<>(request.toModel().toResponse(), entity.getStatusCode());
     }
 
-    public CartaoResponse getCartaoPorId(String id){
 
+    public ResponseEntity<CartaoResponse> getCartaoPorId(String idCartao){
 
+        String url = "http://localhost:8888/api/cartoes" ;
 
-        return null;
+        ResponseEntity<CartaoRequest> request = restTemplate.getForEntity(url + "/" + idCartao, CartaoRequest.class);
+        
+        return new ResponseEntity<>(request.getBody().toModel().toResponse(), request.getStatusCode());
 
     }
 
