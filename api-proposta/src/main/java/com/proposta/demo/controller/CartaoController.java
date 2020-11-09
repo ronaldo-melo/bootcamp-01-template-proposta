@@ -23,7 +23,7 @@ public class CartaoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> recuperarCartaoPorId(@PathVariable @NotBlank String id){
-        return ResponseEntity.ok(recuperarCartao.getCartaoPorId(id));
+        return recuperarCartao.getCartaoPorId(id);
     }
 
 }
