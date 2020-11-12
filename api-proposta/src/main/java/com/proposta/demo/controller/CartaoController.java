@@ -6,8 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/cartoes")
@@ -18,7 +16,7 @@ public class CartaoController {
 
     @GetMapping
     public ResponseEntity<?> recuperarCartaoPorIdProposta(@RequestParam Long idProposta){
-        return recuperarCartao.getCartao(idProposta);
+        return recuperarCartao.getCartaoPorIdProposta(idProposta);
     }
 
     @GetMapping("/{id}")

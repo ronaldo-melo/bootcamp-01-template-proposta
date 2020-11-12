@@ -1,5 +1,6 @@
 package com.proposta.demo.response;
 
+import com.proposta.demo.model.Cartao;
 import com.proposta.demo.model.Proposta;
 import com.proposta.demo.model.enums.StatusAvaliacaoProposta;
 
@@ -11,10 +12,12 @@ public class PropostaResponse {
 
     private StatusAvaliacaoProposta estadoProposta;
 
+    private CartaoResponse cartaoResponse;
+
     public PropostaResponse(Proposta proposta){
         this.nome = proposta.getNome();
         this.email = proposta.getEmail();
-        this.estadoProposta = proposta.getStatusAvaliacaoProposta();
+        this.estadoProposta = proposta.getEstadoProposta();
     }
 
     public String getNome() {
@@ -28,4 +31,5 @@ public class PropostaResponse {
     public StatusAvaliacaoProposta getEstadoProposta() {
         return estadoProposta;
     }
+
 }

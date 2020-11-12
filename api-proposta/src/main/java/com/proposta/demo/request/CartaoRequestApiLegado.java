@@ -4,21 +4,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.proposta.demo.model.Cartao;
 import com.proposta.demo.model.Proposta;
-import com.proposta.demo.service.FindEntityDependency;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class CartaoRequest {
+public class CartaoRequestApiLegado {
 
-
-    @NotBlank
     @NotNull
-    private String id;
+    private UUID id;
 
     @NotNull
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -30,17 +26,17 @@ public class CartaoRequest {
 
     @NotBlank
     @NotNull
-    private Proposta proposta;
+    private Long idProposta;
 
-    public CartaoRequest() {
+    public CartaoRequestApiLegado() {
 
     }
 
-    public void setId(@NotBlank String id) {
+    public void setId(@NotBlank UUID id) {
         this.id = id;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -52,16 +48,19 @@ public class CartaoRequest {
         return titular;
     }
 
-    public Proposta getProposta() {
-        return proposta;
+    public Long getIdProposta() {
+        return idProposta;
     }
 
     public void setEmitidoEm(@NotNull @JsonDeserialize(using = LocalDateTimeDeserializer.class) LocalDateTime emitidoEm) {
         this.emitidoEm = emitidoEm;
     }
 
-    public Cartao toModel(){
-        return new Cartao(UUID.fromString(this.id), this.emitidoEm, this.titular,
-                proposta);
+    public Cartao toModel(EntityManager manager){
+
+        Proposta proposta = manager.find(Proposta.class, getIdProposta());
+
+        return new Cartao(getId(), getEmitidoEm(), proposta);
     }
+
 }

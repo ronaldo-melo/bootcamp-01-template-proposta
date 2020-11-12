@@ -1,6 +1,7 @@
 package com.proposta.demo.model;
 
 import com.proposta.demo.model.enums.StatusAvaliacaoProposta;
+import com.proposta.demo.response.PropostaResponse;
 import com.proposta.demo.validator.DocumentoFormatoValido;
 import org.springframework.util.Assert;
 
@@ -8,9 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
-@Table(name = "proposta")
 public class Proposta {
 
     @Id
@@ -40,7 +41,12 @@ public class Proposta {
     private BigDecimal salario;
 
     @NotNull
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "estado_proposta")
     private StatusAvaliacaoProposta estadoProposta;
+
+    @OneToOne(mappedBy = "proposta")
+    private Cartao cartao;
 
     @Deprecated
     public Proposta() {
@@ -59,6 +65,19 @@ public class Proposta {
         this.estadoProposta = StatusAvaliacaoProposta.NAO_ELEGIVEL;
     }
 
+    public Proposta(@NotBlank @DocumentoFormatoValido String documento, @NotBlank @NotNull String nome,
+                    @Email @NotBlank String email, @NotBlank String endereco,
+                    @Positive BigDecimal salario, Cartao cartao) {
+
+        this.documento = documento;
+        this.email = email;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.salario = salario;
+        this.estadoProposta = StatusAvaliacaoProposta.NAO_ELEGIVEL;
+        this.cartao = cartao;
+    }
+
     public Long getId() {
         return id;
     }
@@ -75,8 +94,20 @@ public class Proposta {
         return email;
     }
 
-    public StatusAvaliacaoProposta getStatusAvaliacaoProposta() {
+    public Cartao getCartao() {
+        return cartao;
+    }
+
+    public void vinculaCartao(Cartao cartao) {
+        this.cartao = cartao;
+    }
+
+    public StatusAvaliacaoProposta getEstadoProposta() {
         return estadoProposta;
+    }
+
+    public PropostaResponse toResponse(){
+        return new PropostaResponse(this);
     }
 
     public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacaoProposta){
@@ -97,7 +128,6 @@ public class Proposta {
         return Objects.hash(id);
     }
 
-    @Transient
     public SolicitacaoAnalise obterDadosParaAnalise(){
         return new SolicitacaoAnalise(this);
     }

@@ -2,21 +2,10 @@ package com.proposta.demo.request;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.proposta.demo.model.Cartao;
-import com.proposta.demo.model.Proposta;
-import com.proposta.demo.service.FindEntityDependency;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class CartaoRequest {
-
-    @PersistenceContext
-    private EntityManager manager;
 
     @NotBlank
     @NotNull
@@ -30,7 +19,6 @@ public class CartaoRequest {
     @NotNull
     private String titular;
 
-    @NotBlank
     @NotNull
     private Long idProposta;
 
@@ -54,24 +42,19 @@ public class CartaoRequest {
         return titular;
     }
 
-    public Long getIdProposta() {
-        return idProposta;
-    }
-
     public void setEmitidoEm(@NotNull @JsonDeserialize(using = LocalDateTimeDeserializer.class) LocalDateTime emitidoEm) {
         this.emitidoEm = emitidoEm;
     }
 
-    public void setTitular(@NotBlank String titular) {
+    public void setTitular(String titular) {
         this.titular = titular;
     }
 
-    public void setIdProposta(@NotNull @Positive Long idProposta) {
-        this.idProposta = idProposta;
+    public Long getIdProposta() {
+        return idProposta;
     }
 
-    public Cartao toModel(){
-        return new Cartao(UUID.fromString(this.id), this.emitidoEm, this.titular,
-                manager.find(Proposta.class, idProposta));
+    public void setIdProposta(Long idProposta) {
+        this.idProposta = idProposta;
     }
 }

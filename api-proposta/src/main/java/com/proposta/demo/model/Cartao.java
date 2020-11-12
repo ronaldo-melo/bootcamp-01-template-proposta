@@ -4,7 +4,6 @@ import com.proposta.demo.response.CartaoResponse;
 
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
@@ -17,61 +16,51 @@ import java.util.UUID;
 public class Cartao {
 
     @Id
-    @NotBlank
     @NotNull
     private UUID id;
 
     @NotNull
-    @FutureOrPresent
     private LocalDateTime emitidoEm;
 
-    @NotBlank
-    private String titular;
+    @OneToMany(mappedBy = "cartao", fetch = FetchType.LAZY)
+    List<Bloqueio> bloqueios; //CDD 1
 
     @OneToMany(mappedBy = "cartao", fetch = FetchType.LAZY)
-    List<Bloqueio> bloqueios;
+    private List<AvisoViagem> avisoViagems; //CDD 2
 
     @OneToMany(mappedBy = "cartao", fetch = FetchType.LAZY)
-    private List<AvisoViagem> avisoViagems;
+    private List<CarteiraDigital> carteiras; //CDD 3
 
     @OneToMany(mappedBy = "cartao", fetch = FetchType.LAZY)
-    private List<CarteiraDigital> carteiras;
-
-    @OneToMany(mappedBy = "cartao", fetch = FetchType.LAZY)
-    private List<Parcela> parcelas;
+    private List<Parcela> parcelas; //CDD 4
 
     @PositiveOrZero
     private BigDecimal limite;
 
     @Embedded
-    private Renegociacao renegociacao;
+    private Renegociacao renegociacao; //CDD 5
 
     @Embedded
-    private Vencimento vencimento;
+    private Vencimento vencimento; //CDD 6
 
     @NotNull
-    private Long idProposta;
+    @OneToOne
+    private Proposta proposta; //CDD 7
 
     @Deprecated
     public Cartao (){
 
     }
 
-    public Cartao(@NotNull @NotBlank UUID id, @NotNull @FutureOrPresent LocalDateTime emitidoEm, @NotBlank String titular,
-                  @NotBlank Long idProposta) {
-
+    public Cartao(@NotNull UUID id, @NotNull @FutureOrPresent LocalDateTime emitidoEm
+                  , Proposta proposta) {
         this.id = id;
         this.emitidoEm = emitidoEm;
-        this.titular = titular;
-        this.idProposta = idProposta;
+        this.proposta = proposta;
     }
 
     public LocalDateTime getEmitidoEm() {
         return emitidoEm;
-    }
-
-    public String getTitular() {
-        return titular;
     }
 
     public UUID getIdCartao() {
@@ -79,12 +68,19 @@ public class Cartao {
     }
 
     public Long getIdProposta() {
-        return idProposta;
+        return proposta.getId();
     }
 
-    @Transient
+    public String getTitular() {
+        return proposta.getNome();
+    }
+
     public CartaoResponse toResponse(){
         return new CartaoResponse(this);
+    }
+
+    public Proposta getProposta() {
+        return proposta;
     }
 
     @Override
@@ -100,3 +96,4 @@ public class Cartao {
         return Objects.hash(id);
     }
 }
+//PONTOS CDD: 7
