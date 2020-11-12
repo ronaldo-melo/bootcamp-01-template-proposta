@@ -18,6 +18,7 @@ public class PropostaResponse {
         this.nome = proposta.getNome();
         this.email = proposta.getEmail();
         this.estadoProposta = proposta.getEstadoProposta();
+        this.cartaoResponse = new CartaoResponse(proposta.getCartao());
     }
 
     public String getNome() {
@@ -32,4 +33,7 @@ public class PropostaResponse {
         return estadoProposta;
     }
 
+    public CartaoResponse getCartao() {
+        return cartaoResponse;
+    }
 }
