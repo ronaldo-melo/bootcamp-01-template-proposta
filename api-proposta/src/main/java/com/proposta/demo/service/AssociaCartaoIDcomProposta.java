@@ -5,6 +5,8 @@ import com.proposta.demo.model.Proposta;
 import com.proposta.demo.model.enums.StatusAvaliacaoProposta;
 import com.proposta.demo.request.CartaoRequest;
 import com.proposta.demo.util.CartaoRequestToModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ public class AssociaCartaoIDcomProposta {
 
     @Autowired
     private RecuperaCartao recuperaCartao; //CDD 1
+
+    private Logger logger = LoggerFactory.getLogger(AssociaCartaoIDcomProposta.class);
 
     @Scheduled(fixedDelay = 5 * 1000L)
     @Transactional
@@ -50,6 +54,7 @@ public class AssociaCartaoIDcomProposta {
 
                    Cartao cartao = CartaoRequestToModel.toModel(request.getBody(), manager);
                    cartao = manager.merge(cartao);
+                   logger.info("Vinculou o cartão com a proposta do documento {}", p.getDocumento());
                    p.vinculaCartao(cartao);
                    manager.merge(p);
                }

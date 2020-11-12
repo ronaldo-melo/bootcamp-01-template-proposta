@@ -65,19 +65,6 @@ public class Proposta {
         this.estadoProposta = StatusAvaliacaoProposta.NAO_ELEGIVEL;
     }
 
-    public Proposta(@NotBlank @DocumentoFormatoValido String documento, @NotBlank @NotNull String nome,
-                    @Email @NotBlank String email, @NotBlank String endereco,
-                    @Positive BigDecimal salario, Cartao cartao) {
-
-        this.documento = documento;
-        this.email = email;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.salario = salario;
-        this.estadoProposta = StatusAvaliacaoProposta.NAO_ELEGIVEL;
-        this.cartao = cartao;
-    }
-
     public Long getId() {
         return id;
     }
