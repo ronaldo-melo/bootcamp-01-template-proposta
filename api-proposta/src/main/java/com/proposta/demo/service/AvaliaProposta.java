@@ -14,8 +14,6 @@ public class AvaliaProposta {
 
     public ResultadoAnalise retornarAnalise(SolicitacaoAnalise solicitacaoAnalise){
 
-        //ResultadoAnalise analise = integracoes.avaliaSocilicaoAnalise(solicitacaoAnalise).getBody();
-
         String url = "http://localhost:9999/api/solicitacao";
 
         RestTemplate restTemplate = new RestTemplate();
