@@ -15,8 +15,6 @@ import java.util.UUID;
 
 public class CartaoRequest {
 
-    @PersistenceContext
-    private EntityManager manager;
 
     @NotBlank
     @NotNull
@@ -32,7 +30,7 @@ public class CartaoRequest {
 
     @NotBlank
     @NotNull
-    private Long idProposta;
+    private Proposta proposta;
 
     public CartaoRequest() {
 
@@ -54,24 +52,16 @@ public class CartaoRequest {
         return titular;
     }
 
-    public Long getIdProposta() {
-        return idProposta;
+    public Proposta getProposta() {
+        return proposta;
     }
 
     public void setEmitidoEm(@NotNull @JsonDeserialize(using = LocalDateTimeDeserializer.class) LocalDateTime emitidoEm) {
         this.emitidoEm = emitidoEm;
     }
 
-    public void setTitular(@NotBlank String titular) {
-        this.titular = titular;
-    }
-
-    public void setIdProposta(@NotNull @Positive Long idProposta) {
-        this.idProposta = idProposta;
-    }
-
     public Cartao toModel(){
         return new Cartao(UUID.fromString(this.id), this.emitidoEm, this.titular,
-                manager.find(Proposta.class, idProposta));
+                proposta);
     }
 }
