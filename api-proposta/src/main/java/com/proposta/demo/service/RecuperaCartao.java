@@ -11,6 +11,8 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.UUID;
+
 @Service
 @Validated
 public class RecuperaCartao {
@@ -39,12 +41,12 @@ public class RecuperaCartao {
         return new ResponseEntity<>(request.getBody(), request.getStatusCode());
     }
 
-    public ResponseEntity<CartaoRequest> getCartaoPorId(String idCartao){
+    public ResponseEntity<CartaoRequest> getCartaoPorId(UUID idCartao){
 
         String url = "http://localhost:8888/api/cartoes";
 
         try {  //CDD 5
-            request = restTemplate.getForEntity(url + "/" + idCartao, CartaoRequest.class);
+            request = restTemplate.getForEntity(url + "/" + idCartao.toString(), CartaoRequest.class);
         } catch (RestClientException r){  //CDD
             // 6
             throw new ResponseStatusException(HttpStatus.BAD_GATEWAY);
