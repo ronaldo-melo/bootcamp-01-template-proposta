@@ -4,10 +4,12 @@ import com.proposta.demo.response.CartaoResponse;
 
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -34,18 +36,21 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao", fetch = FetchType.LAZY)
     private List<Parcela> parcelas; //CDD 4
 
+    @OneToMany(mappedBy = "cartao", fetch = FetchType.LAZY)
+    private List<Biometria> biometrias = new ArrayList<>(); //CDD 5
+
     @PositiveOrZero
     private BigDecimal limite;
 
     @Embedded
-    private Renegociacao renegociacao; //CDD 5
+    private Renegociacao renegociacao; //CDD 6
 
     @Embedded
-    private Vencimento vencimento; //CDD 6
+    private Vencimento vencimento; //CDD 7
 
     @NotNull
     @OneToOne
-    private Proposta proposta; //CDD 7
+    private Proposta proposta; //CDD 8
 
     @Deprecated
     public Cartao (){
@@ -83,6 +88,14 @@ public class Cartao {
         return proposta;
     }
 
+    public List<Biometria> getBiometrias() {
+        return biometrias;
+    }
+
+    public void adicionarBiometria(@NotEmpty Biometria biometria){
+        biometrias.add(biometria);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,4 +109,4 @@ public class Cartao {
         return Objects.hash(id);
     }
 }
-//PONTOS CDD: 7
+//PONTOS CDD: 8
