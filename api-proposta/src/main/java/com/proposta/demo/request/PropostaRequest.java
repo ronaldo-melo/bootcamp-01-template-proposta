@@ -3,7 +3,7 @@ package com.proposta.demo.request;
 import com.proposta.demo.model.Proposta;
 
 import com.proposta.demo.validator.DocumentoFormatoValido;
-import com.proposta.demo.validator.DocumentoUnico;
+import com.proposta.demo.validator.UnicoValor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +15,7 @@ public class PropostaRequest {
 
     @NotBlank
     @DocumentoFormatoValido
-    @DocumentoUnico
+    @UnicoValor(valorDoAtributo = "documento", entity = Proposta.class)
     private String documento;
 
     @NotBlank @NotNull
@@ -31,7 +31,7 @@ public class PropostaRequest {
     @Positive
     private BigDecimal salario;
 
-    public PropostaRequest(@NotBlank @DocumentoFormatoValido @DocumentoUnico String documento,
+    public PropostaRequest(@NotBlank @DocumentoFormatoValido String documento,
                            @NotBlank @NotNull String nome, @Email @NotBlank String email,
                            @NotBlank String endereco, @Positive BigDecimal salario) {
         this.documento = documento;
