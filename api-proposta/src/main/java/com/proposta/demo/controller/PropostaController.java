@@ -54,7 +54,7 @@ public class PropostaController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getProposta(@PathVariable Long id){
                                     //4
-        return ResponseEntity.ok(FindEntity.findEntityById(Proposta.class, id, this.manager).getBody().toResponse());
+        return ResponseEntity.ok(FindEntity.findEntityById(Proposta.class, id, this.manager).toResponse());
     }
 
 }
