@@ -13,11 +13,13 @@ import java.util.Optional;
 @Service
 public class FindEntity {
                 //CDD 1
-    public static <T> ResponseEntity<T> findEntityById(Class<T> entity, Long id, EntityManager manager){
+    public static <T> T findEntityById(Class<T> entity, Object id, EntityManager manager){
         T entityFindedOrNot = (T) manager.find(entity, id);
         Optional<T> optionalEntity = Optional.ofNullable(entityFindedOrNot);
+
+        String msg = String.format("Não foi encontrado(a) '%s' com o id %s", entity.getSimpleName(), id.toString());
                                                             //1
-        return ResponseEntity.ok(optionalEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        return optionalEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, msg));
     }
 
 }
