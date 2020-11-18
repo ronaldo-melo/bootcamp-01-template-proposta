@@ -2,6 +2,7 @@ package com.proposta.demo.model;
 
 import com.proposta.demo.model.enums.StatusAvaliacaoProposta;
 import com.proposta.demo.response.PropostaResponse;
+import com.proposta.demo.service.model.SolicitacaoAnalise;
 import com.proposta.demo.validator.DocumentoFormatoValido;
 import org.springframework.util.Assert;
 
@@ -9,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 public class Proposta {

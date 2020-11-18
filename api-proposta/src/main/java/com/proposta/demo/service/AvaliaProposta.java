@@ -1,7 +1,7 @@
 package com.proposta.demo.service;
 
-import com.proposta.demo.model.ResultadoAnalise;
-import com.proposta.demo.model.SolicitacaoAnalise;
+import com.proposta.demo.service.model.ResultadoAnalise;
+import com.proposta.demo.service.model.SolicitacaoAnalise;
 import com.proposta.demo.model.enums.StatusAvaliacaoProposta;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
