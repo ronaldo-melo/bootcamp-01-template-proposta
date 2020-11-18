@@ -1,12 +1,11 @@
 package com.proposta.demo.controller;
 
-import com.proposta.demo.model.Bloqueio;
+import com.proposta.demo.model.Cartao;
+import com.proposta.demo.model.Solicitacao;
 import com.proposta.demo.request.BiometriaRequest;
 import com.proposta.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -33,6 +32,9 @@ public class CartaoController {
     @Autowired
     private BuscarBloqueio buscarBloqueio;  //CDD 4
 
+    @Autowired
+    private SalvaSolicitacao salvaSolicitacao;  //CDD 5
+
     @PersistenceContext
     private EntityManager manager;
 
@@ -46,7 +48,7 @@ public class CartaoController {
         return recuperarCartao.getCartaoPorId(id);
     }
 
-    @PostMapping("/{id}")                                                                   //CDD 5
+    @PostMapping("/{id}")                                                                   //CDD 6
     private ResponseEntity<?> salvarBiometria(@PathVariable UUID id, @RequestBody @Valid BiometriaRequest request, UriComponentsBuilder builder){
         Long idRecurso = adicionaBiometraEmCartao.adionarBiometria(id, request);
         URI uri = builder.path("/" + id.toString() + "/{idRecurso}").build(idRecurso);
@@ -68,4 +70,19 @@ public class CartaoController {
         return ResponseEntity.ok(buscarBloqueio.buscar(idCartao, idBloqueio, manager));
     }
 
-}//PONTOS CDD:  5
+    @PostMapping("cartoes/solicitacoes/{id}")
+    public ResponseEntity<?> solicitarRecuperacaoDeSenha(@PathVariable UUID idCartao, HttpServletRequest httpServletRequest, UriComponentsBuilder builder){
+        Long idRecurso = salvaSolicitacao.salvar(idCartao, httpServletRequest, manager);
+        URI uri = builder.path("/recuperacao-senha/" + idCartao + "/{id}").build(idCartao);
+        return ResponseEntity.created(uri).build();
+    }
+
+    @GetMapping("cartoes/recuperacao-senha/{idCartao}/solicitacoes/{idSolicitacao}")
+    public ResponseEntity<?> getRecuperacao(@PathVariable UUID idCartao, @PathVariable Long idSolicitacao){
+        FindEntity.findEntityById(Cartao.class, idCartao, manager);
+        //CDD 7                     //CDD 8
+        Solicitacao solicitacao = FindEntity.findEntityById(Solicitacao.class, idSolicitacao, manager);
+        return ResponseEntity.ok(solicitacao.toResponse());
+    }
+
+}//PONTOS CDD: 8
