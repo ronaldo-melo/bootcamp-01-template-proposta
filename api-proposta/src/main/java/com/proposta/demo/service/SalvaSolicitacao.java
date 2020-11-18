@@ -1,4 +1,4 @@
-package com.proposta.demo.service.model;
+package com.proposta.demo.service;
 
 import com.proposta.demo.model.Cartao;
 import com.proposta.demo.model.Solicitacao;
@@ -7,19 +7,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.print.DocFlavor;
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 @Service
 public class SalvaSolicitacao {
 
+    private String userAgent;
+    private String ipDoClient;
+    private Cartao cartao;
+
     @Transactional
-    public Long salvar(UUID idCartao, SolicitacaoRequest request, HttpServletRequest httpServletRequest, EntityManager manager){
-        Cartao cartao = FindEntity.findEntityById(Cartao.class, idCartao, manager);
-        String userAgente = httpServletRequest.getHeader("User-Agent");
-        String ipDoClient = httpServletRequest.getRemoteAddr();
-        
-        Solicitacao novaSolicitacao = new Solicitacao();
+    public Long salvar(UUID idCartao, HttpServletRequest httpServletRequest, EntityManager manager){
+        userAgent = httpServletRequest.getHeader("User-Agent");
+        ipDoClient = httpServletRequest.getRemoteAddr();
+        cartao = FindEntity.findEntityById(Cartao.class, idCartao, manager);
+
+        Solicitacao novaSolicitacao = new Solicitacao(ipDoClient, userAgent, cartao);
+        return manager.merge(novaSolicitacao).getId();
     }
 
 }
