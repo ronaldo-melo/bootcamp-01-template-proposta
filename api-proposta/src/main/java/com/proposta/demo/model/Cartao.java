@@ -1,5 +1,6 @@
 package com.proposta.demo.model;
 
+import com.proposta.demo.model.enums.EstadoBloqueio;
 import com.proposta.demo.response.CartaoResponse;
 
 import javax.persistence.*;
@@ -25,7 +26,7 @@ public class Cartao {
     private LocalDateTime emitidoEm;
 
     @OneToMany(mappedBy = "cartao", fetch = FetchType.LAZY)
-    List<Bloqueio> bloqueios; //CDD 1
+    List<Bloqueio> bloqueios = new ArrayList<>(); //CDD 1
 
     @OneToMany(mappedBy = "cartao", fetch = FetchType.LAZY)
     private List<AvisoViagem> avisoViagems; //CDD 2
@@ -52,6 +53,10 @@ public class Cartao {
     @OneToOne
     private Proposta proposta; //CDD 8
 
+    @NotNull
+    @Enumerated(value = EnumType.ORDINAL)
+    private EstadoBloqueio estadoBloqueio;
+
     @Deprecated
     public Cartao (){
 
@@ -62,6 +67,8 @@ public class Cartao {
         this.id = id;
         this.emitidoEm = emitidoEm;
         this.proposta = proposta;
+
+        this.estadoBloqueio = EstadoBloqueio.FALHA;
     }
 
     public LocalDateTime getEmitidoEm() {
@@ -94,6 +101,18 @@ public class Cartao {
 
     public void adicionarBiometria(@NotEmpty Biometria biometria){
         biometrias.add(biometria);
+    }
+
+    public void adicionarBloqueio(Bloqueio bloqueio){
+        bloqueios.add(bloqueio);
+    }
+
+    public void bloquearCartao(){
+        this.estadoBloqueio = EstadoBloqueio.BLOQUEADO;
+    }
+
+    public EstadoBloqueio estadoAtualBloqueio() {
+        return estadoBloqueio;
     }
 
     @Override
