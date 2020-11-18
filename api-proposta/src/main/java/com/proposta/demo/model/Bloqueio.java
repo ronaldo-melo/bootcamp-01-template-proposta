@@ -1,29 +1,30 @@
 package com.proposta.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.proposta.demo.response.BloqueioResponse;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Entity
 public class Bloqueio {
 
-    @NotEmpty
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private String id;
+    private Long id;
 
     @NotNull
-    private OffsetDateTime bloqueadoEm;
+    private LocalDateTime bloqueadoEm;
 
     @NotBlank
-    private String sistemaResponsavel;
+    private String userAgent; //userAgent
 
-    @NotNull
-    private Boolean ativo;
+    @NotBlank
+    private String ipDaRequisicao;
 
     @NotNull
     @ManyToOne
@@ -34,13 +35,37 @@ public class Bloqueio {
 
     }
 
-    public Bloqueio(@NotNull OffsetDateTime bloqueadoEm, @NotBlank String sistemaResponsavel,
-                    @NotNull Boolean ativo, @NotNull Cartao cartao) {
+    public Bloqueio(@NotBlank String userAgent,
+                    @NotBlank String ipDaRequisicao, @NotNull Cartao cartao) {
 
-        this.bloqueadoEm = bloqueadoEm;
-        this.sistemaResponsavel = sistemaResponsavel;
+        this.bloqueadoEm = LocalDateTime.now();
+        this.userAgent = userAgent;
         this.cartao = cartao;
-        this.ativo = ativo;
+        this.ipDaRequisicao = ipDaRequisicao;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
+    }
+
+    public LocalDateTime getBloqueadoEm() {
+        return bloqueadoEm;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public String getIpDaRequisicao() {
+        return ipDaRequisicao;
+    }
+
+    public BloqueioResponse toResponse(){
+        return new BloqueioResponse(this);
     }
 
     @Override
