@@ -2,6 +2,7 @@ package com.proposta.demo.controller;
 
 import com.proposta.demo.model.Cartao;
 import com.proposta.demo.model.Solicitacao;
+import com.proposta.demo.request.AvisoRequest;
 import com.proposta.demo.request.BiometriaRequest;
 import com.proposta.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class CartaoController {
     @Autowired
     private SalvaSolicitacao salvaSolicitacao;  //CDD 5
 
+    @Autowired
+    private SalvaAviso salvaAviso;
+
     @PersistenceContext
     private EntityManager manager;
 
@@ -51,7 +55,7 @@ public class CartaoController {
     @PostMapping("/{id}")                                                                   //CDD 6
     private ResponseEntity<?> salvarBiometria(@PathVariable UUID id, @RequestBody @Valid BiometriaRequest request, UriComponentsBuilder builder){
         Long idRecurso = adicionaBiometraEmCartao.adionarBiometria(id, request);
-        URI uri = builder.path("/" + id.toString() + "/{idRecurso}").build(idRecurso);
+        URI uri = builder.path("/cartoes" + id.toString() + "/{idRecurso}").build(idRecurso);
 
         return ResponseEntity.created(uri).build();
     }
@@ -60,7 +64,7 @@ public class CartaoController {
     public ResponseEntity<?> bloquearCartao(@PathVariable UUID id, UriComponentsBuilder builder, HttpServletRequest request){
 
         Long resourceAdress = validaBloqueioNoCartao.valida(request, id, manager);
-        URI uri = builder.path("/bloqueios/".concat(id.toString()) + "/{id}").build(resourceAdress);
+        URI uri = builder.path("cartoes/bloqueios/".concat(id.toString()) + "/{id}").build(resourceAdress);
 
         return ResponseEntity.created(uri).build();
     }
@@ -70,19 +74,26 @@ public class CartaoController {
         return ResponseEntity.ok(buscarBloqueio.buscar(idCartao, idBloqueio, manager));
     }
 
-    @PostMapping("cartoes/solicitacoes/{id}")
+    @PostMapping("/solicitacoes/{id}")
     public ResponseEntity<?> solicitarRecuperacaoDeSenha(@PathVariable UUID idCartao, HttpServletRequest httpServletRequest, UriComponentsBuilder builder){
         Long idRecurso = salvaSolicitacao.salvar(idCartao, httpServletRequest, manager);
-        URI uri = builder.path("/recuperacao-senha/" + idCartao + "/{id}").build(idCartao);
+        URI uri = builder.path("cartoes/recuperacao-senha/" + idCartao + "/{id}").build(idCartao);
         return ResponseEntity.created(uri).build();
     }
 
-    @GetMapping("cartoes/recuperacao-senha/{idCartao}/solicitacoes/{idSolicitacao}")
+    @GetMapping("/recuperacao-senha/{idCartao}/solicitacoes/{idSolicitacao}")
     public ResponseEntity<?> getRecuperacao(@PathVariable UUID idCartao, @PathVariable Long idSolicitacao){
         FindEntity.findEntityById(Cartao.class, idCartao, manager);
         //CDD 7                     //CDD 8
         Solicitacao solicitacao = FindEntity.findEntityById(Solicitacao.class, idSolicitacao, manager);
         return ResponseEntity.ok(solicitacao.toResponse());
+    }
+
+    @PostMapping("/aviso-viagem/{idCartao}")
+    public ResponseEntity<?> salvarAvisoViagem(@PathVariable UUID idCartao, HttpServletRequest httpServletRequest, @Valid @RequestBody AvisoRequest avisoRequest, UriComponentsBuilder builder){
+        Long id = salvaAviso.salvar(idCartao, httpServletRequest, avisoRequest, manager);
+        URI uri = builder.path("cartoes/aviso-viagem/" + idCartao.toString() + "/{id}").build(id);
+        return ResponseEntity.created(uri).build();
     }
 
 }//PONTOS CDD: 8
