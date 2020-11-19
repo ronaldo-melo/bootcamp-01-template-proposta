@@ -115,6 +115,14 @@ public class Cartao {
         return estadoBloqueio;
     }
 
+    public void adicinarAvisoViagem(AvisoViagem novoAvisoViagem){
+        avisoViagems.add(novoAvisoViagem);
+    }
+
+    public List<AvisoViagem> getAvisoViagems() {
+        return avisoViagems;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
