@@ -111,6 +111,14 @@ public class Cartao {
         this.estadoBloqueio = EstadoBloqueio.BLOQUEADO;
     }
 
+    public List<CarteiraDigital> getCarteiras() {
+        return carteiras;
+    }
+
+    public void adicionarCarteira(CarteiraDigital carteiraDigital) {
+        this.carteiras.add(carteiraDigital);
+    }
+
     public EstadoBloqueio estadoAtualBloqueio() {
         return estadoBloqueio;
     }
