@@ -1,7 +1,5 @@
 package com.proposta.demo.controller;
 
-import com.proposta.demo.response.PropostaResponse;
-import com.proposta.demo.service.AssociaCartaoIDcomProposta;
 import com.proposta.demo.service.AvaliaProposta;
 import com.proposta.demo.Repository.ExecutorTransacao;
 import com.proposta.demo.model.Proposta;
@@ -28,12 +26,14 @@ public class PropostaController {
                     //1
     private AvaliaProposta avaliaProposta;
 
+    private FindEntity findEntity;
 
     public PropostaController(EntityManager manager, ExecutorTransacao executorTransacao,
                               AvaliaProposta avaliaProposta, FindEntity findEntity) {
         super();
         this.manager = manager;
         this.avaliaProposta = avaliaProposta;
+        this.findEntity = findEntity;
     }
 
     @PostMapping
@@ -54,7 +54,7 @@ public class PropostaController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getProposta(@PathVariable Long id){
                                     //4
-        return ResponseEntity.ok(FindEntity.findEntityById(Proposta.class, id, this.manager).toResponse());
+        return ResponseEntity.ok(findEntity.findById(Proposta.class, id).toResponse());
     }
 
 }
