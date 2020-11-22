@@ -1,30 +1,34 @@
 package com.proposta.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.proposta.demo.model.enums.TipoCarteira;
+import com.proposta.demo.response.CarteiraDigitalResponse;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class CarteiraDigital {
 
-    @NotBlank
     @Id
-    private String id;
+    @Column(unique = true)
+    private UUID id;
 
     @NotBlank
+    @Email
     private String email;
 
     @NotNull
-    @FutureOrPresent
-    private OffsetDateTime associadoEm;
+    private LocalDateTime associadoEm;
 
-    @NotBlank
-    private String emissor;
+    @NotNull
+    @Enumerated(value = EnumType.ORDINAL)
+    private TipoCarteira tipoCarteira;
 
     @NotNull
     @ManyToOne
@@ -34,14 +38,34 @@ public class CarteiraDigital {
     public CarteiraDigital() {
     }
 
-    public CarteiraDigital(@NotBlank String id, @NotBlank String email, @NotNull @FutureOrPresent OffsetDateTime associadoEm,
-                           @NotBlank String emissor, @NotNull Cartao cartao) {
+    public CarteiraDigital(@NotBlank UUID id, @NotBlank String email, @NotNull LocalDateTime associadoEm,
+                           @NotBlank TipoCarteira tipoCarteira, @NotNull Cartao cartao) {
 
         this.id = id;
         this.email = email;
         this.associadoEm = associadoEm;
-        this.emissor = emissor;
+        this.tipoCarteira = tipoCarteira;
         this.cartao = cartao;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public TipoCarteira getTipoCarteira() {
+        return tipoCarteira;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
+    }
+
+    public CarteiraDigitalResponse toResponse(){
+        return new CarteiraDigitalResponse(this);
     }
 
     @Override
