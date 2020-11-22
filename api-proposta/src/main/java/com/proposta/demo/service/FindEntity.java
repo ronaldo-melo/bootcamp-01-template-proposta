@@ -12,8 +12,12 @@ import java.util.Optional;
 
 @Service
 public class FindEntity {
+
+    @PersistenceContext
+    private EntityManager manager;
+
                 //CDD 1
-    public static <T> T findEntityById(Class<T> entity, Object id, EntityManager manager){
+    public <T> T findById(Class<T> entity, Object id){
         T entityFindedOrNot = (T) manager.find(entity, id);
         Optional<T> optionalEntity = Optional.ofNullable(entityFindedOrNot);
 

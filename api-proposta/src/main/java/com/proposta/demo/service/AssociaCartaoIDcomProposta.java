@@ -42,7 +42,7 @@ public class AssociaCartaoIDcomProposta {
                 /* 1. Identificador da proposta será utilizado como base para consulta do cartão no sistema legado "accounts". */
 
                                     //CDD 5
-                ResponseEntity<CartaoRequest> request = recuperaCartao.getCartaoPorIdProposta(p.getId());
+                ResponseEntity<CartaoRequest> request = recuperaCartao.recuperarPorIdProposta(p.getId());
 
                 /* 2. Quando o sistema de accounts(cartões) retornar sucesso (status code na faixa 200)
                 o número de cartão deve ser atrelado a proposta (id que é retornado no resultado da consulta).*/

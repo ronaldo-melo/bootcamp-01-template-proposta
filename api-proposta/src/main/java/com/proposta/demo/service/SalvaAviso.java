@@ -42,8 +42,14 @@ public class SalvaAviso {
     @NotNull
     private Cartao cartao; //CDD 1
 
+    @Autowired
+    private FindEntity findEntity;
+
+    @Autowired
+    private EntityManager manager;
+
     @Transactional                                                                                      //CDD 2
-    public Long salvar(UUID idCartao, HttpServletRequest httpServletRequest, AvisoRequest avisoRequest, EntityManager manager){
+    public Long salvar(UUID idCartao, HttpServletRequest httpServletRequest, AvisoRequest avisoRequest){
 
         //CDD 3
         SolicitacaoAvisoViagem solicitacaoAvisoViagem = new SolicitacaoAvisoViagem(avisoRequest.getTerminoaDaViagem(), avisoRequest.getDestino());
@@ -53,7 +59,7 @@ public class SalvaAviso {
         terminoaDaViagem = avisoRequest.getTerminoaDaViagem();
         userAgent = httpServletRequest.getHeader("User-Agent");
         ipDoCliente = httpServletRequest.getRemoteAddr();
-        cartao = FindEntity.findEntityById(Cartao.class, idCartao, manager);
+        cartao = findEntity.findById(Cartao.class, idCartao);
         //CDD 4
         AvisoViagem novoAvisoViagem = new AvisoViagem(destino, terminoaDaViagem, ipDoCliente, userAgent, cartao);
 

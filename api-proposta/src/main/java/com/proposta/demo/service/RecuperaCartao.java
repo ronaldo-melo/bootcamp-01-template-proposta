@@ -21,7 +21,7 @@ public class RecuperaCartao {
 
     private ResponseEntity<CartaoRequest> request;
                             //CDD 1
-    public ResponseEntity<CartaoRequest> getCartaoPorIdProposta(Long idProposta) {
+    public ResponseEntity<CartaoRequest> recuperarPorIdProposta(Long idProposta) {
 
         try {  //CDD 2
 
@@ -35,13 +35,13 @@ public class RecuperaCartao {
             request = restTemplate.getForEntity(uri.toUriString(), CartaoRequest.class);
 
         } catch (RestClientException r){  //CDD 4
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY);
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, r.getMessage());
         }
 
         return new ResponseEntity<>(request.getBody(), request.getStatusCode());
     }
 
-    public ResponseEntity<CartaoRequest> getCartaoPorId(UUID idCartao){
+    public ResponseEntity<CartaoRequest> recuperarPorId(UUID idCartao){
 
         String url = "http://localhost:8888/api/cartoes";
 

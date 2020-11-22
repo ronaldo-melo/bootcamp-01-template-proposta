@@ -23,20 +23,29 @@ public class ValidaBloqueioNoCartao {
     @Autowired
     private SalvaNovoBloqueio salvaNovoBloqueio; ///CCD: 2
 
+    @Autowired
+    private ServiceCartoesFactoty factoty;
+
+    @Autowired
+    private FindEntity findEntity;
+
+    @Autowired
+    private EntityManager manager;
+
     @Transactional
-    public Long valida(HttpServletRequest request, UUID id, EntityManager manager){
+    public Long validar(HttpServletRequest request, UUID id){
 
         ResponseEntity<?> resultado = bloqueioCartaoResultado.tentaBloqueio(id);
 
         if(resultado.getStatusCode().is2xxSuccessful()){  //CCD: 3
 
             //CCD: 4       //CCD: 5
-            Cartao cartao = FindEntity.findEntityById(Cartao.class, id, manager);
+            Cartao cartao = findEntity.findById(Cartao.class, id);
             cartao.bloquearCartao();
             manager.merge(cartao);
         }
 
-        Long idNovoBloqueio = salvaNovoBloqueio.salvar(request, id, manager);
+        Long idNovoBloqueio = salvaNovoBloqueio.salvar(request, id);
         return idNovoBloqueio;
     }
 }
