@@ -18,10 +18,9 @@ public class Proposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 60)
     @NotBlank
     @NotNull
-    @DocumentoFormatoValido
     private String documento;
 
     @NotBlank
@@ -95,6 +94,10 @@ public class Proposta {
 
     public PropostaResponse toResponse(){
         return new PropostaResponse(this);
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
     }
 
     public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacaoProposta){

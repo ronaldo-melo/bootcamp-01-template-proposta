@@ -61,7 +61,7 @@ class ApiDePropostaApplicationTests {
 		String email = "ronaldo.melo@gmail.com" ;
 		BigDecimal salario = BigDecimal.valueOf(4000.00);
 		PropostaRequest request = new PropostaRequest(documento, nome, email, endereco, salario);
-		Proposta proposta = request.toModel();
+		//Proposta proposta = request.toModel();
 		UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
 
 		//Ação

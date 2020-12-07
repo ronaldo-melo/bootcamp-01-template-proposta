@@ -2,8 +2,11 @@ package com.proposta.demo.request;
 
 import com.proposta.demo.model.Proposta;
 
+import com.proposta.demo.service.EncodeDocumento;
 import com.proposta.demo.validator.DocumentoFormatoValido;
 import com.proposta.demo.validator.UnicoValor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -41,8 +44,8 @@ public class PropostaRequest {
         this.salario = salario;
     }
             //1
-    public Proposta toModel(){
-        return new Proposta(this.documento, this.nome, this.email, this.endereco, this.salario);
+    public Proposta toModel(EncodeDocumento encodeDocumento){
+        return new Proposta(encodeDocumento.encode(documento), this.nome, this.email, this.endereco, this.salario);
     }
 
 }

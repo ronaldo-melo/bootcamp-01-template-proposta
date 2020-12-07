@@ -4,7 +4,9 @@ import com.proposta.demo.service.AvaliaProposta;
 import com.proposta.demo.Repository.ExecutorTransacao;
 import com.proposta.demo.model.Proposta;
 import com.proposta.demo.request.PropostaRequest;
+import com.proposta.demo.service.EncodeDocumento;
 import com.proposta.demo.service.FindEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -28,12 +30,15 @@ public class PropostaController {
 
     private FindEntity findEntity;
 
+    private EncodeDocumento encodeDocumento;
+
     public PropostaController(EntityManager manager, ExecutorTransacao executorTransacao,
-                              AvaliaProposta avaliaProposta, FindEntity findEntity) {
+                              AvaliaProposta avaliaProposta, FindEntity findEntity, EncodeDocumento encodeDocumento) {
         super();
         this.manager = manager;
         this.avaliaProposta = avaliaProposta;
         this.findEntity = findEntity;
+        this.encodeDocumento = encodeDocumento;
     }
 
     @PostMapping
@@ -41,7 +46,7 @@ public class PropostaController {
     public ResponseEntity<?> salvarProposta(@RequestBody @Valid PropostaRequest request, UriComponentsBuilder builder){
 
         //3
-        Proposta proposta = request.toModel();
+        Proposta proposta = request.toModel(encodeDocumento);
         manager.persist(proposta);
         proposta.atualizaStatus(avaliaProposta.getStatusAvaliacao(proposta.obterDadosParaAnalise()));
         manager.merge(proposta);
